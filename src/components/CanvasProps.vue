@@ -92,7 +92,7 @@
             <a-row>
                 <a-col :span="24" class="padd">文本内容</a-col>
                 <a-col :span="24">
-                    <a-textarea v-model="props.node.text" placeholder="线条文本" allowClear @change="onChange" />
+                    <a-textarea v-model="props.node.text" placeholder="内容文本" allowClear @change="onChange" />
                 </a-col>
             </a-row>
 
@@ -155,8 +155,8 @@
                             v-model="props.line.fromArrow"
                             style="width: 80px"
                     >
-                        <a-select-option v-for="item in arrowImg" :value="item.name">
-                            <img :src="item.value"/>
+                        <a-select-option v-for="item in $ConstData.arrowTypes" :value="item">
+                            <i :class="`iconfont icon-from-${item}`"></i>
                         </a-select-option>
                     </a-select>
                 </a-col>
@@ -165,8 +165,8 @@
                             v-model="props.line.toArrow"
                             style="width: 80px"
                     >
-                        <a-select-option v-for="item in arrowImg" :value="item.name">
-                            <img :src="item.value"/>
+                        <a-select-option v-for="item in $ConstData.arrowTypes" :value="item">
+                            <i :class="`iconfont icon-to-${item}`"></i>
                         </a-select-option>
                     </a-select>
                 </a-col>
@@ -212,8 +212,8 @@
                             v-model="props.line.name"
                             style="width: 80px"
                     >
-                        <a-select-option v-for="item in arrowType" :value="item.name">
-                            <img :src="item.value" style="width: 50px;height:30px;"/>
+                        <a-select-option v-for="item in $ConstData.lineNames" :value="item">
+                            <i :class="`iconfont icon-${item}`" style="text-align: center"></i>
                         </a-select-option>
                     </a-select>
                 </a-col>
@@ -222,7 +222,7 @@
                             v-model="props.line.dash"
                             style="width: 80px"
                     >
-                        <a-select-option v-for="item in arrowStyle" :value="item.name">
+                        <a-select-option v-for="item in $ConstData.lineStyle" :value="item.name">
                             <img :src="item.value" style="width: 50px;height:30px;"/>
                         </a-select-option>
                     </a-select>
@@ -308,7 +308,7 @@
                             style="width: 200px"
                             @change="animateStart"
                     >
-                        <a-select-option v-for="item in animateType" :value="item.name">
+                        <a-select-option v-for="item in $ConstData.animateType" :value="item.name">
                             {{item.value}}
                         </a-select-option>
                     </a-select>
@@ -345,35 +345,6 @@
         data() {
             return {
                 animateStartBol:false,
-                arrowImg: [
-                    {name: "", value: require('../assets/img/arrow/baesLine.png')},
-                    {name: "circle", value: require('../assets/img/arrow/circle.png')},
-                    {name: "circleSolid", value: require('../assets/img/arrow/circleSolid.png')},
-                    {name: "diamond", value: require('../assets/img/arrow/diamond.png')},
-                    {name: "diamondSolid", value: require('../assets/img/arrow/diamondSolid.png')},
-                    {name: "line", value: require('../assets/img/arrow/line.png')},
-                    {name: "lineDown", value: require('../assets/img/arrow/lineDown.png')},
-                    {name: "lineUp", value: require('../assets/img/arrow/lineUp.png')},
-                    {name: "triangle", value: require('../assets/img/arrow/triangle.png')},
-                    {name: "triangleSolid", value: require('../assets/img/arrow/triangleSolid.png')}
-                ],
-                arrowType: [
-                    {name: "curve", value: require('../assets/img/arrow/curve.svg')},
-                    {name: "polyline", value: require('../assets/img/arrow/polyline.svg')},
-                    {name: "line", value: require('../assets/img/arrow/line.svg')}
-                ],
-                arrowStyle: [
-                    {name: 0, value: require('../assets/img/arrow/lineStyle.svg')},
-                    {name: 1, value: require('../assets/img/arrow/lineStyle1.svg')},
-                    {name: 2, value: require('../assets/img/arrow/lineStyle2.svg')},
-                    {name: 3, value: require('../assets/img/arrow/lineStyle3.svg')}
-                ],
-                animateType:[
-                    {name: "", value: "水流"},
-                    {name: "beads", value: "水珠"},
-                    {name: "dot", value: "圆点"},
-                    {name: "comet", value: "彗星"}
-                ]
             }
         },
         props: {

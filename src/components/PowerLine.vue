@@ -1,34 +1,70 @@
 <template>
-    <div class="page">
-        <div class="tools">
-            <div v-for="(item, index) in tools" :key="index">
-                <div class="title">{{ item.group }}</div>
-                <a-row>
-                    <a-col :span="8" v-for="(btn, i) in item.children">
-                        <a
-                            :key="i"
-                            :title="btn.name"
-                            :draggable="btn.data"
-                            @dragstart="onDrag($event, btn)"
-                        >
-                            <img :src="btn.img"/>
-                        </a>
-                    </a-col>
-                </a-row>
+    <a-layout id="components-layout-demo-fixed">
+        <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
+            <a-menu
+                    theme="dark"
+                    mode="horizontal"
+                    :defaultSelectedKeys="['2']"
+                    :style="{ lineHeight: '64px' }"
+            >
+                <a-sub-menu style="float: left">
+                    <template slot="title">文件</template>
+                    <a-menu-item index="new" @click="handle_new">新建文件</a-menu-item>
+                    <a-menu-item index="open" @click="handle_open">打开本地文件（新建）</a-menu-item>
+                    <a-menu-item index="replace" @click="handle_replace">导入本地文件...</a-menu-item>
+                    <a-menu-item index="save" @click="handle_save">保存到本地</a-menu-item>
+                    <a-menu-item index="savePng" @click="handle_savePng">下载为PNG</a-menu-item>
+                </a-sub-menu>
 
+                <a-sub-menu style="float: left">
+                    <template slot="title"><i :class="`iconfont icon-line`"></i></template>
+                    <a-menu-item
+                            v-for="(item, index) in $ConstData.lineNames"
+                            :key="index"
+                            :index="`line-${item}`"
+                            @click="onState('lineName', item)"
+                    >
+                        <i :class="`iconfont icon-${item}`" style="width: 100%"></i>
+                    </a-menu-item>
+                </a-sub-menu>
+
+            </a-menu>
+        </a-layout-header>
+        <a-layout-content :style="{ padding: '0 0px', marginTop: '64px' }">
+            <div class="page">
+                <div v-for="(item, index) in tools" :key="index" class="tools">
+                    <div class="title">{{ item.group }}</div>
+                    <a-row>
+                        <a-col :span="8" v-for="(btn, i) in item.children">
+                            <a
+                                    :key="i"
+                                    :title="btn.name"
+                                    :draggable="btn.data"
+                                    @dragstart="onDrag($event, btn)"
+                            >
+                                <img :src="btn.img"/>
+                            </a>
+                        </a-col>
+                    </a-row>
+                </div>
+
+                <div id="topology-canvas" class="full" @contextmenu="onContextMenu($event)"></div>
+
+
+                <div style="width:240px;overflow :auto">
+                    <CanvasProps :canvas="canvas" :props.sync="props" @change="onUpdateProps"></CanvasProps>
+                </div>
+                <div class="context-menu" v-if="contextmenu.left" :style="this.contextmenu">
+                    <CanvasContextMenu :canvas="canvas" :props.sync="props"></CanvasContextMenu>
+                </div>
             </div>
-        </div>
-        <div id="topology-canvas" class="full" @contextmenu="onContextMenu($event)"></div>
-        <div style="width:240px;height:100vh;overflow :auto">
-            <CanvasProps :canvas="canvas" :props.sync="props" @change="onUpdateProps"></CanvasProps>
-        </div>
-        <div class="context-menu" v-if="contextmenu.left" :style="this.contextmenu">
-            <CanvasContextMenu :canvas="canvas" :props.sync="props"></CanvasContextMenu>
-        </div>
-    </div>
+        </a-layout-content>
+
+    </a-layout>
 </template>
 
 <script>
+    import * as FileSaver from 'file-saver'
     import {Topology} from 'topology-core'
     import {Tools, canvasRegister} from '../assets/js/PowerLineTool'
     import CanvasProps from './CanvasProps'
@@ -40,8 +76,8 @@
             return {
                 tools: Tools,
                 canvas: {},
+                lineNames: ['curve', 'polyline', 'line'],
                 canvasOptions: {
-                    rotateCursor: '/img/rotate.cur'
                 },
                 props: {
                     node: null,
@@ -82,39 +118,6 @@
             this.canvas = new Topology('topology-canvas', this.canvasOptions)
         },
         methods: {
-            handle_new(data) {
-                this.canvas.open({nodes: [], lines: []})
-            },
-            handle_open(data) {
-                this.handle_replace(data)
-            },
-            handle_replace(data) {
-                const input = document.createElement('input')
-                input.type = 'file'
-                input.onchange = event => {
-                    const elem = event.srcElement || event.target
-                    if (elem.files && elem.files[0]) {
-                        const reader = new FileReader()
-                        reader.onload = e => {
-                            const text = e.target.result + ''
-                            try {
-                                const data = JSON.parse(text)
-                                if (
-                                    data &&
-                                    Array.isArray(data.nodes) &&
-                                    Array.isArray(data.lines)
-                                ) {
-                                    this.canvas.open(data)
-                                }
-                            } catch (e) {
-                                return false
-                            }
-                        }
-                        reader.readAsText(elem.files[0])
-                    }
-                }
-                input.click()
-            },
             onDrag(event, node) {
                 event.dataTransfer.setData('Text', JSON.stringify(node.data))
             },
@@ -239,6 +242,52 @@
                     }
                 }
                 return locked
+            },
+            handle_new(data) {
+                this.canvas.open({ nodes: [], lines: [] })
+            },
+            handle_open(data) {
+                this.handle_replace(data)
+            },
+            handle_replace(data) {
+                const input = document.createElement('input')
+                input.type = 'file'
+                input.onchange = event => {
+                    const elem = event.srcElement || event.target
+                    if (elem.files && elem.files[0]) {
+                        const name = elem.files[0].name.replace('.json', '')
+                        const reader = new FileReader()
+                        reader.onload = e => {
+                            const text = e.target.result + ''
+                            try {
+                                const data = JSON.parse(text)
+                                if (
+                                    data &&
+                                    Array.isArray(data.nodes) &&
+                                    Array.isArray(data.lines)
+                                ) {
+                                    this.canvas.open(data)
+                                }
+                            } catch (e) {
+                                return false
+                            }
+                        }
+                        reader.readAsText(elem.files[0])
+                    }
+                }
+                input.click()
+            },
+            handle_save(data) {
+                FileSaver.saveAs(
+                    new Blob([JSON.stringify(this.canvas.data)], {
+                        type: 'text/plain;charset=utf-8'
+                    }),
+                    `le5le.topology.json`
+                )
+            },
+
+            handle_savePng(data) {
+                this.canvas.saveAsImage('le5le.topology.png')
             },
             handle_undo(data) {
                 this.canvas.undo()
