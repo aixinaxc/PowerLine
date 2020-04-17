@@ -102,7 +102,6 @@
                 tools: Tools,
                 canvas: {},
                 canvasOptions: {
-
                 },
                 props: {
                     node: null,
@@ -154,6 +153,8 @@
         mounted() {
             this.canvasOptions.on = this.onMessage
             this.canvas = new Topology('topology-canvas', this.canvasOptions)
+            this.canvas.data['bkColor'] = "#FFFAF0"
+            this.canvas.updateProps()
         },
         methods: {
             onState(key, value) {
@@ -172,7 +173,6 @@
                 // 如果是line属性改变，无需传参
                 console.log('node', node)
                 this.canvas.updateProps(node)
-
             },
             onContextMenu(event) {
                 event.preventDefault()
