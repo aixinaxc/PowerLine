@@ -17,11 +17,31 @@ export default new Vuex.Store({
       lineName: 'curve',
       fromArrowType: '',
       toArrowType: 'triangleSolid',
-      locked: 0
+      locked: 0,
+      bkColor : '#000000'
     }
   },
   mutations: {
-
+    data(state, data) {
+      state.data = data
+    },
+    emit(state, event) {
+      state.event = event
+    },
+    dataUpdata(state, data){
+      console.log("dataUpdata==============================")
+      switch (data.key) {
+        case "lineName":
+          state.data.lineName = data.value
+              break;
+        case "fromArrowType":
+          state.data.fromArrowType = data.value
+              break
+        case "toArrowType":
+          state.data.toArrowType = data.value
+        default:
+      }
+    }
   },
   actions: {
 

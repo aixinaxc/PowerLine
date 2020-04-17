@@ -5,7 +5,7 @@
                     theme="dark"
                     mode="horizontal"
                     :defaultSelectedKeys="['2']"
-                    :style="{ lineHeight: '64px' }"
+                    :style="{ lineHeight: '64px',height: '64px' }"
             >
                 <a-sub-menu style="float: left">
                     <template slot="title">文件</template>
@@ -16,17 +16,42 @@
                     <a-menu-item index="savePng" @click="handle_savePng">下载为PNG</a-menu-item>
                 </a-sub-menu>
 
-                <a-sub-menu style="float: left">
-                    <template slot="title"><i :class="`iconfont icon-line`"></i></template>
+
+                <a-sub-menu >
+                    <template slot="title">连线类型:<i :class="`iconfont icon-${lineName}`"></i></template>
                     <a-menu-item
                             v-for="(item, index) in $ConstData.lineNames"
                             :key="index"
                             :index="`line-${item}`"
                             @click="onState('lineName', item)"
                     >
-                        <i :class="`iconfont icon-${item}`" style="width: 100%"></i>
+                        <i :class="`iconfont icon-${item}`"></i>
                     </a-menu-item>
                 </a-sub-menu>
+                <a-sub-menu >
+                    <template slot="title">起点箭头:<i :class="`iconfont icon-from-${fromArrowType}`"></i></template>
+                    <a-menu-item
+                            v-for="(item, index) in $ConstData.arrowTypes"
+                            :key="index"
+                            :index="`line-${item}`"
+                            @click="onState('fromArrowType', item)"
+                    >
+                        <i :class="`iconfont icon-from-${item}`"></i>
+                    </a-menu-item>
+                </a-sub-menu>
+
+                <a-sub-menu >
+                    <template slot="title">终点箭头:<i :class="`iconfont icon-to-${toArrowType}`" ></i></template>
+                    <a-menu-item
+                            v-for="(item, index) in $ConstData.arrowTypes"
+                            :key="index"
+                            :index="`line-${item}`"
+                            @click="onState('toArrowType', item)"
+                    >
+                        <i :class="`iconfont icon-to-${item}`"></i>
+                    </a-menu-item>
+                </a-sub-menu>
+
 
             </a-menu>
         </a-layout-header>
@@ -76,8 +101,8 @@
             return {
                 tools: Tools,
                 canvas: {},
-                lineNames: ['curve', 'polyline', 'line'],
                 canvasOptions: {
+
                 },
                 props: {
                     node: null,
@@ -101,7 +126,20 @@
             CanvasProps,
             CanvasContextMenu
         },
-        computed: {},
+        computed: {
+            scale() {
+                return Math.floor(this.$store.state.data.scale * 100)
+            },
+            lineName() {
+                return this.$store.state.data.lineName
+            },
+            fromArrowType() {
+                return this.$store.state.data.fromArrowType
+            },
+            toArrowType() {
+                return this.$store.state.data.toArrowType
+            }
+        },
         watch: {},
         created() {
             canvasRegister()
@@ -118,6 +156,14 @@
             this.canvas = new Topology('topology-canvas', this.canvasOptions)
         },
         methods: {
+            onState(key, value) {
+                console.log("___________________",key,value)
+                this.$store.commit('dataUpdata', {
+                    key: key,
+                    value: value
+                })
+                this.canvas.data[key] = value
+            },
             onDrag(event, node) {
                 event.dataTransfer.setData('Text', JSON.stringify(node.data))
             },
@@ -212,7 +258,7 @@
                     case 'scale':
                     case 'locked':
                         if (this.canvas && this.canvas.data) {
-                            this.$store.commit('canvas/data', {
+                            this.$store.commit('data', {
                                 scale: this.canvas.data.scale || 1,
                                 lineName: this.canvas.data.lineName,
                                 fromArrowType: this.canvas.data.fromArrowType,
@@ -244,7 +290,7 @@
                 return locked
             },
             handle_new(data) {
-                this.canvas.open({ nodes: [], lines: [] })
+                this.canvas.open({nodes: [], lines: []})
             },
             handle_open(data) {
                 this.handle_replace(data)
@@ -282,12 +328,12 @@
                     new Blob([JSON.stringify(this.canvas.data)], {
                         type: 'text/plain;charset=utf-8'
                     }),
-                    `le5le.topology.json`
+                    `电网.json`
                 )
             },
 
             handle_savePng(data) {
-                this.canvas.saveAsImage('le5le.topology.png')
+                this.canvas.saveAsImage('电网.png')
             },
             handle_undo(data) {
                 this.canvas.undo()
@@ -381,4 +427,8 @@
         z-index: 10;
     }
 
+    .iconfont {
+        color: #fff;
+        font-size: 2rem;
+    }
 </style>

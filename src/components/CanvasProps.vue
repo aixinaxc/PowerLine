@@ -154,8 +154,9 @@
                     <a-select
                             v-model="props.line.fromArrow"
                             style="width: 80px"
+                            @change="onChange"
                     >
-                        <a-select-option v-for="item in $ConstData.arrowTypes" :value="item">
+                        <a-select-option v-for="item in $ConstData.arrowTypes" :value="item" >
                             <i :class="`iconfont icon-from-${item}`"></i>
                         </a-select-option>
                     </a-select>
@@ -164,6 +165,7 @@
                     <a-select
                             v-model="props.line.toArrow"
                             style="width: 80px"
+                            @change="onChange"
                     >
                         <a-select-option v-for="item in $ConstData.arrowTypes" :value="item">
                             <i :class="`iconfont icon-to-${item}`"></i>
@@ -176,10 +178,10 @@
                 <a-col :span="12" class="padd">起点箭头颜色</a-col>
                 <a-col :span="12" class="padd">终点箭头颜色</a-col>
                 <a-col :span="12">
-                    <colorPicker v-model="props.line.fromArrowColor=props.line.fromArrowColor==undefined?'':props.line.fromArrowColor" style="z-index:999;"/>
+                    <colorPicker v-model="props.line.fromArrowColor=props.line.fromArrowColor==undefined?'':props.line.fromArrowColor" style="z-index:999;" @change="onChange"/>
                 </a-col>
                 <a-col :span="12">
-                    <colorPicker v-model="props.line.toArrowColor=props.line.toArrowColor==undefined?'':props.line.toArrowColor" style="z-index:999;"/>
+                    <colorPicker v-model="props.line.toArrowColor=props.line.toArrowColor==undefined?'':props.line.toArrowColor" style="z-index:999;" @change="onChange"/>
                 </a-col>
             </a-row>
 
@@ -211,6 +213,7 @@
                     <a-select
                             v-model="props.line.name"
                             style="width: 80px"
+                            @change="onChange"
                     >
                         <a-select-option v-for="item in $ConstData.lineNames" :value="item">
                             <i :class="`iconfont icon-${item}`" style="text-align: center"></i>
@@ -221,6 +224,7 @@
                     <a-select
                             v-model="props.line.dash"
                             style="width: 80px"
+                            @change="onChange"
                     >
                         <a-select-option v-for="item in $ConstData.lineStyle" :value="item.name">
                             <img :src="item.value" style="width: 50px;height:30px;"/>
@@ -233,7 +237,7 @@
                 <a-col :span="12" class="padd">连线颜色</a-col>
                 <a-col :span="12" class="padd">连线宽度</a-col>
                 <a-col :span="12">
-                    <colorPicker v-model="props.line.strokeStyle=props.line.strokeStyle==undefined?'':props.line.strokeStyle" style="z-index:999;"/>
+                    <colorPicker v-model="props.line.strokeStyle=props.line.strokeStyle==undefined?'':props.line.strokeStyle" style="z-index:999;" @change="onChange"/>
                 </a-col>
                 <a-col :span="12">
                     <a-input-number
@@ -276,7 +280,7 @@
                 <a-col :span="12" class="padd">文本颜色</a-col>
                 <a-col :span="12" class="padd">文本大小</a-col>
                 <a-col :span="12">
-                    <colorPicker v-model="props.line.font.color=props.line.font.color==undefined?'':props.line.font.color" style="z-index:999;"/>
+                    <colorPicker v-model="props.line.font.color=props.line.font.color==undefined?'':props.line.font.color" style="z-index:999;" @change="onChange"/>
                 </a-col>
                 <a-col :span="12">
                     <a-input-number
