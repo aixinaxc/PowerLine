@@ -89,8 +89,8 @@
                     ></a-input-number>
                 </a-col>
             </a-row>
-            <a-row>
-                <a-col :span="24" class="padd">文本内容</a-col>
+            <a-row class="padd">
+                <a-col :span="24" >文本内容</a-col>
                 <a-col :span="24">
                     <a-textarea v-model="props.node.text" placeholder="内容文本" allowClear @change="onChange" />
                 </a-col>
@@ -290,9 +290,9 @@
                     ></a-input-number>
                 </a-col>
             </a-row>
-            <a-row>
-                <a-col :span="24" class="padd">文本内容</a-col>
-                <a-col :span="24">
+            <a-row class="padd">
+                <a-col :span="24" >文本内容</a-col>
+                <a-col :span="24" >
                     <a-textarea v-model="props.line.text" placeholder="线条文本" allowClear @change="onChange" />
                 </a-col>
             </a-row>
@@ -382,7 +382,7 @@
 
 <style scoped>
     .padd{
-        padding: 10px 0;
+        padding: 10px ;
     }
     .title {
         color: #0d1a26;
@@ -390,24 +390,5 @@
         padding: 0.05rem 0.15rem;
         border-bottom: 1px solid #ccc;
         margin-top: 10px;
-    }
-
-    .group {
-        margin: 0.1rem 0 0.2rem 0.3rem;
-        padding: 0;
-    }
-
-    .group a,
-    .group li {
-        line-height: 2;
-    }
-
-    .group li {
-        list-style: initial;
-    }
-
-    .bottom {
-        position: absolute;
-        bottom: 0.1rem;
     }
 </style>

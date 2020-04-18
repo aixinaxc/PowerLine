@@ -1,4 +1,11 @@
 # powerline
+电网线路图可视化编辑器
+
+### 项目测试地址
+```
+https://aixinaxc.github.io/PowerLine/
+```
+
 
 ## Project setup
 ```
@@ -20,5 +27,4 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+

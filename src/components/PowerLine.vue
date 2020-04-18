@@ -1,11 +1,10 @@
 <template>
     <a-layout id="components-layout-demo-fixed">
-        <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
+        <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%',height: '5vh' }">
             <a-menu
                     theme="dark"
                     mode="horizontal"
-                    :defaultSelectedKeys="['2']"
-                    :style="{ lineHeight: '64px',height: '64px' }"
+                    :style="{ lineHeight: '5vh',height: '5vh' }"
             >
                 <a-sub-menu style="float: left">
                     <template slot="title">文件</template>
@@ -55,7 +54,7 @@
 
             </a-menu>
         </a-layout-header>
-        <a-layout-content :style="{ padding: '0 0px', marginTop: '64px' }">
+        <a-layout-content :style="{ padding: '0 0px', marginTop: '5vh' }">
             <div class="page">
                 <div v-for="(item, index) in tools" :key="index" class="tools">
                     <div class="title">{{ item.group }}</div>
@@ -142,7 +141,8 @@
         watch: {},
         created() {
             canvasRegister()
-            document.onclick = event => {
+            document.body.onclick = event => {
+                console.log("========")
                 this.contextmenu = {
                     left: null,
                     top: null,
@@ -360,7 +360,7 @@
     .page {
         display: flex;
         width: 100%;
-        height: 100vh;
+        height: 95vh;
     }
 
     .page .tools {
@@ -377,7 +377,7 @@
         font-size: 16px;
         line-height: 1;
         padding: 0.05rem 0.1rem;
-        margin-top: 0.08rem;
+        margin-top: 0.8rem;
         border-bottom: 1px solid #ddd;
     }
 
