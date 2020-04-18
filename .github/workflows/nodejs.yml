@@ -10,7 +10,7 @@ jobs:
     - name: checkout
       uses: actions/checkout@master # 将代码拷贝到虚机中
 
-    - name: buildAndDeploy
+    - name: Node.js CI
       uses: aixinaxc/PowerLine@master 
       env:
         ACCESS_TOKEN: ${{ secrets.PowerToken }} # 使用刚新建的secret
