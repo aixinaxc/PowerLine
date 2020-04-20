@@ -89,6 +89,32 @@
                     ></a-input-number>
                 </a-col>
             </a-row>
+            <a-row align="middle">
+                <a-col :span="12" class="padd">水平对齐</a-col>
+                <a-col :span="12" class="padd">垂直对齐</a-col>
+                <a-col :span="12">
+                    <a-select
+                            v-model="props.node.font.textAlign"
+                            style="width: 80px"
+                            @change="onChange"
+                    >
+                        <a-select-option v-for="item in $ConstData.textAlign" :value="item.name" >
+                            {{item.value}}
+                        </a-select-option>
+                    </a-select>
+                </a-col>
+                <a-col :span="12">
+                    <a-select
+                            v-model="props.node.font.textBaseline"
+                            style="width: 80px"
+                            @change="onChange"
+                    >
+                        <a-select-option v-for="item in $ConstData.textBaseline" :value="item.name" >
+                            {{item.value}}
+                        </a-select-option>
+                    </a-select>
+                </a-col>
+            </a-row>
             <a-row class="padd">
                 <a-col :span="24" >文本内容</a-col>
                 <a-col :span="24">
@@ -288,6 +314,32 @@
                             controls-position="right"
                             @change="onChange"
                     ></a-input-number>
+                </a-col>
+            </a-row>
+            <a-row align="middle">
+                <a-col :span="12" class="padd">水平对齐</a-col>
+                <a-col :span="12" class="padd">垂直对齐</a-col>
+                <a-col :span="12">
+                    <a-select
+                            v-model="props.line.font.textAlign"
+                            style="width: 80px"
+                            @change="onChange"
+                    >
+                        <a-select-option v-for="item in $ConstData.textAlign" :value="item.name" >
+                            {{item.value}}
+                        </a-select-option>
+                    </a-select>
+                </a-col>
+                <a-col :span="12">
+                    <a-select
+                            v-model="props.line.font.textBaseline"
+                            style="width: 80px"
+                            @change="onChange"
+                    >
+                        <a-select-option v-for="item in $ConstData.textBaseline" :value="item.name" >
+                            {{item.value}}
+                        </a-select-option>
+                    </a-select>
                 </a-col>
             </a-row>
             <a-row class="padd">
