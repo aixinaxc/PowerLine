@@ -31,6 +31,9 @@ export default new Vuex.Store({
     dataUpdata(state, data){
       console.log("dataUpdata==============================")
       switch (data.key) {
+        case "locked":
+          state.data.locked = data.value
+          break;
         case "lineName":
           state.data.lineName = data.value
               break;

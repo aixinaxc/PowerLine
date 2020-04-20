@@ -1,4 +1,4 @@
-const lineNames = ['curve', 'polyline', 'line']
+const lineNames = ['curve', 'polyline', 'line','mind']
 
 const arrowTypes = [
     '',
@@ -39,6 +39,12 @@ const textBaseline = [
     {name: "bottom", value: "下对齐"}
 ]
 
+const Lock = [
+    {name: 0, value: "未锁定"},
+    {name: 1, value: "只读"},
+    {name: 2, value: "禁用"}
+]
+
 export default {
-    lineNames,arrowTypes,animateType,lineStyle,textAlign,textBaseline
+    lineNames,arrowTypes,animateType,lineStyle,textAlign,textBaseline,Lock
 }

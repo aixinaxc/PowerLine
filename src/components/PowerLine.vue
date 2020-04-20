@@ -15,9 +15,13 @@
                     <a-menu-item index="savePng" @click="handle_savePng">下载为PNG</a-menu-item>
                 </a-sub-menu>
 
+                <a-sub-menu >
+                    <template slot="title"><i :class="`iconfont icon-${locked}`" @click="onLock"></i></template>
+                </a-sub-menu>
 
                 <a-sub-menu >
-                    <template slot="title">连线类型:<i :class="`iconfont icon-${lineName}`"></i></template>
+                    <template slot="title"><i :class="`iconfont icon-${lineName}`"></i></template>
+                    <a-menu-item disabled>连线类型:</a-menu-item>
                     <a-menu-item
                             v-for="(item, index) in $ConstData.lineNames"
                             :key="index"
@@ -28,7 +32,8 @@
                     </a-menu-item>
                 </a-sub-menu>
                 <a-sub-menu >
-                    <template slot="title">起点箭头:<i :class="`iconfont icon-from-${fromArrowType}`"></i></template>
+                    <template slot="title"><i :class="`iconfont icon-from-${fromArrowType}`"></i></template>
+                    <a-menu-item disabled>起点箭头:</a-menu-item>
                     <a-menu-item
                             v-for="(item, index) in $ConstData.arrowTypes"
                             :key="index"
@@ -40,7 +45,8 @@
                 </a-sub-menu>
 
                 <a-sub-menu >
-                    <template slot="title">终点箭头:<i :class="`iconfont icon-to-${toArrowType}`" ></i></template>
+                    <template slot="title"><i :class="`iconfont icon-to-${toArrowType}`" ></i></template>
+                    <a-menu-item disabled >终点箭头:</a-menu-item>
                     <a-menu-item
                             v-for="(item, index) in $ConstData.arrowTypes"
                             :key="index"
@@ -125,6 +131,13 @@
             CanvasContextMenu
         },
         computed: {
+            locked(){
+                if(this.$store.state.data.locked == 0){
+                    return "lock"
+                }else {
+                    return "unlock"
+                }
+            },
             scale() {
                 return Math.floor(this.$store.state.data.scale * 100)
             },
@@ -157,6 +170,14 @@
             this.canvas.updateProps()
         },
         methods: {
+            onLock(){
+                console.log(this.canvas,this.canvas)
+                if(this.canvas.data["locked"] == 0){
+                    this.onState("locked", 1)
+                }else {
+                    this.onState("locked", 0)
+                }
+            },
             onState(key, value) {
                 console.log("___________________",key,value)
                 this.$store.commit('dataUpdata', {
@@ -192,7 +213,7 @@
             },
             onMessage(event, data) {
                 // console.log('onMessage:', event, data)
-                console.log('data', data)
+                console.log('data',event, data)
                 switch (event) {
                     case 'node':
                     case 'addNode':
@@ -220,7 +241,7 @@
                             line: null,
                             multi: true,
                             nodes: data.length > 1 ? data : null,
-                            locked: this.getLocked(data)
+                            locked: this.getLocked({ nodes: data })
                         }
                         break
                     case 'space':
@@ -257,6 +278,7 @@
                     case 'resize':
                     case 'scale':
                     case 'locked':
+                        console.log("locked")
                         if (this.canvas && this.canvas.data) {
                             this.$store.commit('data', {
                                 scale: this.canvas.data.scale || 1,
@@ -267,9 +289,12 @@
                             })
                         }
                         break
+                    default:
+                        console.log("--------------------------",event)
                 }
             },
             getLocked(data) {
+                console.log("getLocked",data,data.nodes)
                 let locked = true
                 if (data.nodes && data.nodes.length) {
                     for (const item of data.nodes) {
