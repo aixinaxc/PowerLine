@@ -194,7 +194,7 @@ export function canvasRegister() {
 
 export const Tools = [
     {
-        group: '基本形状',
+        group: '基础控件',
         children: [
             {
                 name: 'text',
@@ -221,7 +221,12 @@ export const Tools = [
                     },
                     name: 'line'
                 }
-            },
+            }
+        ]
+    },
+    {
+        group: '电力符号',
+        children: [
             {
                 name: '红灯',
                 icon: 'icon-image',

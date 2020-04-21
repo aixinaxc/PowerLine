@@ -15,11 +15,11 @@
                     <a-menu-item index="savePng" @click="handle_savePng">下载为PNG</a-menu-item>
                 </a-sub-menu>
 
-                <a-sub-menu >
+                <a-sub-menu>
                     <template slot="title"><i :class="`iconfont icon-${locked}`" @click="onLock"></i></template>
                 </a-sub-menu>
 
-                <a-sub-menu >
+                <a-sub-menu>
                     <template slot="title"><i :class="`iconfont icon-${lineName}`"></i></template>
                     <a-menu-item disabled>连线类型:</a-menu-item>
                     <a-menu-item
@@ -31,7 +31,7 @@
                         <i :class="`iconfont icon-${item}`"></i>
                     </a-menu-item>
                 </a-sub-menu>
-                <a-sub-menu >
+                <a-sub-menu>
                     <template slot="title"><i :class="`iconfont icon-from-${fromArrowType}`"></i></template>
                     <a-menu-item disabled>起点箭头:</a-menu-item>
                     <a-menu-item
@@ -44,9 +44,9 @@
                     </a-menu-item>
                 </a-sub-menu>
 
-                <a-sub-menu >
-                    <template slot="title"><i :class="`iconfont icon-to-${toArrowType}`" ></i></template>
-                    <a-menu-item disabled >终点箭头:</a-menu-item>
+                <a-sub-menu>
+                    <template slot="title"><i :class="`iconfont icon-to-${toArrowType}`"></i></template>
+                    <a-menu-item disabled>终点箭头:</a-menu-item>
                     <a-menu-item
                             v-for="(item, index) in $ConstData.arrowTypes"
                             :key="index"
@@ -62,28 +62,30 @@
         </a-layout-header>
         <a-layout-content :style="{ padding: '0 0px', marginTop: '5vh' }">
             <div class="page">
-                <div v-for="(item, index) in tools" :key="index" class="tools">
-                    <div class="title">{{ item.group }}</div>
-                    <a-row>
-                        <a-col :span="8" v-for="(btn, i) in item.children">
-                            <a
-                                    :key="i"
-                                    :title="btn.name"
-                                    :draggable="btn.data"
-                                    @dragstart="onDrag($event, btn)"
-                            >
-                                <img :src="btn.img"/>
-                            </a>
-                        </a-col>
-                    </a-row>
-                </div>
-
+                <!--左侧控件区-->
+                <a-collapse style="width: 200px">
+                    <a-collapse-panel v-for="(item, index) in tools"  :header="item.group" :key="index" >
+                        <a-row>
+                            <a-col :span="8" v-for="(btn, i) in item.children">
+                                <a
+                                        :key="i"
+                                        :title="btn.name"
+                                        :draggable="btn.data"
+                                        @dragstart="onDrag($event, btn)"
+                                >
+                                    <img :src="btn.img"/>
+                                </a>
+                            </a-col>
+                        </a-row>
+                    </a-collapse-panel>
+                </a-collapse>
+                <!--主画布区-->
                 <div id="topology-canvas" class="full" @contextmenu="onContextMenu($event)"></div>
-
-
+                <!--右侧控件调整区-->
                 <div style="width:240px;overflow :auto">
                     <CanvasProps :canvas="canvas" :props.sync="props" @change="onUpdateProps"></CanvasProps>
                 </div>
+                <!--右键菜单控件-->
                 <div class="context-menu" v-if="contextmenu.left" :style="this.contextmenu">
                     <CanvasContextMenu :canvas="canvas" :props.sync="props"></CanvasContextMenu>
                 </div>
@@ -106,8 +108,7 @@
             return {
                 tools: Tools,
                 canvas: {},
-                canvasOptions: {
-                },
+                canvasOptions: {},
                 props: {
                     node: null,
                     line: null,
@@ -131,10 +132,10 @@
             CanvasContextMenu
         },
         computed: {
-            locked(){
-                if(this.$store.state.data.locked == 0){
+            locked() {
+                if (this.$store.state.data.locked == 0) {
                     return "lock"
-                }else {
+                } else {
                     return "unlock"
                 }
             },
@@ -170,16 +171,16 @@
             //this.canvas.updateProps()
         },
         methods: {
-            onLock(){
-                console.log(this.canvas,this.canvas)
-                if(this.canvas.data["locked"] == 0){
+            onLock() {
+                console.log(this.canvas, this.canvas)
+                if (this.canvas.data["locked"] == 0) {
                     this.onState("locked", 1)
-                }else {
+                } else {
                     this.onState("locked", 0)
                 }
             },
             onState(key, value) {
-                console.log("___________________",key,value)
+                console.log("___________________", key, value)
                 this.$store.commit('dataUpdata', {
                     key: key,
                     value: value
@@ -212,7 +213,7 @@
                 }
             },
             onMessage(event, data) {
-                 console.log('onMessage:', event, data)
+                console.log('onMessage:', event, data)
                 switch (event) {
                     case 'node':
                     case 'addNode':
@@ -240,7 +241,7 @@
                             line: null,
                             multi: true,
                             nodes: data.length > 1 ? data : null,
-                            locked: this.getLocked({ nodes: data })
+                            locked: this.getLocked({nodes: data})
                         }
                         break
                     case 'space':
@@ -289,11 +290,11 @@
                         }
                         break
                     default:
-                        console.log("--------------------------",event)
+                        console.log("--------------------------", event)
                 }
             },
             getLocked(data) {
-                console.log("getLocked",data,data.nodes)
+                console.log("getLocked", data, data.nodes)
                 let locked = true
                 if (data.nodes && data.nodes.length) {
                     for (const item of data.nodes) {

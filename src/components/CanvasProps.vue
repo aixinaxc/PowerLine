@@ -13,7 +13,7 @@
             </div>
         </div>
         <!-- 选中节点 -->
-        <div v-if="props.node">
+        <div v-if="props.node" >
             <div class="title">位置和大小</div>
             <a-row>
                 <a-col :span="12">X（px）</a-col>
