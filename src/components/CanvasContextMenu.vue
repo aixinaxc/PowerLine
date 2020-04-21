@@ -18,7 +18,7 @@
         </div>
         <div>
             <a
-                    :class="{disabled:!props.node && !props.nodes}"
+                    :class="{disabled:!props.node && !props.nodes && !props.line && !props.lines}"
                     @click="onLock()"
             >{{ props.locked ? '解锁' : '锁定' }}</a>
         </div>
@@ -123,6 +123,9 @@
                 this.props.locked = !this.props.locked
                 if (this.props.node) {
                     this.props.node.locked = this.props.locked
+                }
+                if (this.props.line) {
+                    this.props.line.locked = this.props.locked
                 }
                 if (this.props.nodes) {
                     for (const item of this.props.nodes) {

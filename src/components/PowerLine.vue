@@ -155,7 +155,7 @@
         created() {
             canvasRegister()
             document.body.onclick = event => {
-                console.log("========")
+                //console.log("========")
                 this.contextmenu = {
                     left: null,
                     top: null,
@@ -166,8 +166,8 @@
         mounted() {
             this.canvasOptions.on = this.onMessage
             this.canvas = new Topology('topology-canvas', this.canvasOptions)
-            this.canvas.data['bkColor'] = "#FFFAF0"
-            this.canvas.updateProps()
+            //this.canvas.data['bkColor'] = "#FFFAF0"
+            //this.canvas.updateProps()
         },
         methods: {
             onLock(){
@@ -192,7 +192,7 @@
             onUpdateProps(node) {
                 // 如果是node属性改变，需要传入node，重新计算node相关属性值
                 // 如果是line属性改变，无需传参
-                console.log('node', node)
+                //console.log('node', node)
                 this.canvas.updateProps(node)
             },
             onContextMenu(event) {
@@ -212,8 +212,7 @@
                 }
             },
             onMessage(event, data) {
-                // console.log('onMessage:', event, data)
-                console.log('data',event, data)
+                 console.log('onMessage:', event, data)
                 switch (event) {
                     case 'node':
                     case 'addNode':
@@ -428,12 +427,12 @@
         font-size: 30px;
     }
 
-    .page .full {
+    .full {
         flex: 1;
         width: initial;
         position: relative;
         overflow: auto;
-        background: #fff;
+        background: #FFFAF0;
     }
 
     .page .props {
