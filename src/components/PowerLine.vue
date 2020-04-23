@@ -16,7 +16,7 @@
                 </a-sub-menu>
 
                 <a-sub-menu>
-                    <template slot="title"><i :class="`iconfont icon-${locked}`" @click="onLock"></i></template>
+                    <template slot="title"><i :class="`iconfont icon-${locked}`" @click="onLock" :title="$store.state.data.locked == 0 ? '锁定':'解锁'"></i></template>
                 </a-sub-menu>
 
                 <a-sub-menu>

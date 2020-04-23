@@ -5,10 +5,10 @@
             <div class="bottom">
                 <div class="title">小提示</div>
                 <ul class="group">
-                    <li>方向键：控制节点移动5个像素</li>
-                    <li>Ctrl + 方向键：控制节点移动1个像素</li>
-                    <li>Ctrl + 鼠标移动：移动整个画布</li>
-                    <li>Ctrl + 鼠标滚轮：缩放</li>
+                    <li style="text-align: left;padding-right: 5px">方向键：控制节点移动5个像素</li>
+                    <li style="text-align: left;padding-right: 5px">Ctrl + 方向键：控制节点移动1个像素</li>
+                    <li style="text-align: left;padding-right: 5px">Ctrl + 鼠标移动：移动整个画布</li>
+                    <li style="text-align: left;padding-right: 5px">Ctrl + 鼠标滚轮：缩放</li>
                 </ul>
             </div>
         </div>
