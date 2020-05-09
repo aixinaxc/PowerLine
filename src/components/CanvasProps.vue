@@ -5,10 +5,16 @@
             <div class="bottom">
                 <div class="title">小提示</div>
                 <ul class="group">
-                    <li style="text-align: left;padding-right: 5px">方向键：控制节点移动5个像素</li>
-                    <li style="text-align: left;padding-right: 5px">Ctrl + 方向键：控制节点移动1个像素</li>
-                    <li style="text-align: left;padding-right: 5px">Ctrl + 鼠标移动：移动整个画布</li>
-                    <li style="text-align: left;padding-right: 5px">Ctrl + 鼠标滚轮：缩放</li>
+                    <li style="text-align: left;padding: 5px">方向键：控制节点移动5个像素</li>
+                    <li style="text-align: left;padding: 5px">Ctrl + 方向键：控制节点移动1个像素</li>
+                    <li style="text-align: left;padding: 5px">Ctrl + 鼠标移动：移动整个画布</li>
+                    <li style="text-align: left;padding: 5px">Ctrl + 鼠标滚轮：缩放</li>
+                </ul>
+                <div class="title">组合：</div>
+                <ul class="group">
+                    <li style="text-align: left;padding: 5px">Shift + 单击： 单选，可用于选择子节点/连线。</li>
+                    <li style="text-align: left;padding: 5px">Ctrl + 单击： 多选。</li>
+                    <li style="text-align: left;padding: 5px">Ctrl + 单击鼠标按下不放（移动）：移动子节点。</li>
                 </ul>
             </div>
         </div>
