@@ -16,7 +16,8 @@
                 </a-sub-menu>
 
                 <a-sub-menu>
-                    <template slot="title"><i :class="`iconfont icon-${locked}`" @click="onLock" :title="$store.state.data.locked == 0 ? '锁定':'解锁'"></i></template>
+                    <template slot="title"><i :class="`iconfont icon-${locked}`" @click="onLock"
+                                              :title="$store.state.data.locked == 0 ? '锁定':'解锁'"></i></template>
                 </a-sub-menu>
 
                 <a-sub-menu>
@@ -56,15 +57,13 @@
                         <i :class="`iconfont icon-to-${item}`"></i>
                     </a-menu-item>
                 </a-sub-menu>
-
-
             </a-menu>
         </a-layout-header>
         <a-layout-content :style="{ padding: '0 0px', marginTop: '5vh' }">
             <div class="page">
                 <!--左侧控件区-->
                 <a-collapse style="width: 200px">
-                    <a-collapse-panel v-for="(item, index) in tools"  :header="item.group" :key="index" >
+                    <a-collapse-panel v-for="(item, index) in tools" :header="item.group" :key="index">
                         <a-row>
                             <a-col :span="8" v-for="(btn, i) in item.children">
                                 <a
@@ -98,15 +97,17 @@
 <script>
     import * as FileSaver from 'file-saver'
     import {Topology} from 'topology-core'
-    import {Tools, canvasRegister} from '../assets/js/PowerLineTool'
+    import {canvasRegister} from '../assets/js/PowerLineTool'
     import CanvasProps from './CanvasProps'
     import CanvasContextMenu from './CanvasContextMenu'
+    import {BaseControls} from '../assets/js/control/BaseControl'
+    import {PowerLineControls} from '../assets/js/control/PowerLineControl'
 
     export default {
         name: 'PowerLine',
         data() {
             return {
-                tools: Tools,
+                tools: [BaseControls, PowerLineControls],
                 canvas: {},
                 canvasOptions: {},
                 props: {
@@ -154,6 +155,7 @@
         },
         watch: {},
         created() {
+            console.log("tools:", this.tools)
             canvasRegister()
             document.body.onclick = event => {
                 //console.log("========")
@@ -167,8 +169,6 @@
         mounted() {
             this.canvasOptions.on = this.onMessage
             this.canvas = new Topology('topology-canvas', this.canvasOptions)
-            //this.canvas.data['bkColor'] = "#FFFAF0"
-            //this.canvas.updateProps()
         },
         methods: {
             onLock() {

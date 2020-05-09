@@ -187,7 +187,7 @@
                             style="width: 80px"
                             @change="onChange"
                     >
-                        <a-select-option v-for="item in $ConstData.arrowTypes" :value="item" >
+                        <a-select-option v-for="(item,index) in $ConstData.arrowTypes" :value="item" >
                             <i :class="`iconfont icon-from-${item}`"></i>
                         </a-select-option>
                     </a-select>
@@ -198,7 +198,7 @@
                             style="width: 80px"
                             @change="onChange"
                     >
-                        <a-select-option v-for="item in $ConstData.arrowTypes" :value="item">
+                        <a-select-option v-for="(item,index) in $ConstData.arrowTypes" :value="item">
                             <i :class="`iconfont icon-to-${item}`"></i>
                         </a-select-option>
                     </a-select>
@@ -246,7 +246,7 @@
                             style="width: 80px"
                             @change="onChange"
                     >
-                        <a-select-option v-for="item in $ConstData.lineNames" :value="item">
+                        <a-select-option v-for="(item,index) in $ConstData.lineNames" :value="item">
                             <i :class="`iconfont icon-${item}`" style="text-align: center"></i>
                         </a-select-option>
                     </a-select>
