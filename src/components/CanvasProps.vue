@@ -247,7 +247,7 @@
                             @change="onChange"
                     >
                         <a-select-option v-for="(item,index) in $ConstData.lineNames" :value="item">
-                            <i :class="`iconfont icon-${item}`" style="text-align: center"></i>
+                            <i :class="`iconfont icon-${item}`" style="text-align: center;font-size: 32px"></i>
                         </a-select-option>
                     </a-select>
                 </a-col>

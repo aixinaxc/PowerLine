@@ -105,6 +105,10 @@
 
     export default {
         name: 'PowerLine',
+        components: {
+            CanvasProps,
+            CanvasContextMenu
+        },
         data() {
             return {
                 tools: [BaseControls, PowerLineControls],
@@ -127,10 +131,6 @@
                     data: null
                 }
             }
-        },
-        components: {
-            CanvasProps,
-            CanvasContextMenu
         },
         computed: {
             locked() {
@@ -180,7 +180,7 @@
                 }
             },
             onState(key, value) {
-                console.log("___________________", key, value)
+                //console.log("___________________", key, value)
                 this.$store.commit('dataUpdata', {
                     key: key,
                     value: value
@@ -213,7 +213,7 @@
                 }
             },
             onMessage(event, data) {
-                console.log('onMessage:', event, data)
+                //console.log('onMessage:', event, data)
                 switch (event) {
                     case 'node':
                     case 'addNode':
@@ -278,7 +278,7 @@
                     case 'resize':
                     case 'scale':
                     case 'locked':
-                        console.log("locked")
+                        //console.log("locked")
                         if (this.canvas && this.canvas.data) {
                             this.$store.commit('data', {
                                 scale: this.canvas.data.scale || 1,
@@ -290,11 +290,11 @@
                         }
                         break
                     default:
-                        console.log("--------------------------", event)
+                        //console.log("--------------------------", event)
                 }
             },
             getLocked(data) {
-                console.log("getLocked", data, data.nodes)
+                //console.log("getLocked", data, data.nodes)
                 let locked = true
                 if (data.nodes && data.nodes.length) {
                     for (const item of data.nodes) {
@@ -356,7 +356,6 @@
                     `电网.json`
                 )
             },
-
             handle_savePng(data) {
                 this.canvas.saveAsImage('电网.png')
             },
