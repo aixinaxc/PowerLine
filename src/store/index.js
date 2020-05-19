@@ -29,7 +29,7 @@ export default new Vuex.Store({
       state.event = event
     },
     dataUpdata(state, data){
-      console.log("dataUpdata==============================")
+      //console.log("dataUpdata==============================")
       switch (data.key) {
         case "locked":
           state.data.locked = data.value
